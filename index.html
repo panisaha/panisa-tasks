@@ -3,7 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>My Task Planner</title>
+    <title>My Task & Research Planner</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         * {
             margin: 0;
@@ -17,96 +18,168 @@
             color: #ffffff;
             display: flex;
             justify-content: center;
-            align-items: center;
+            align-items: flex-start;
             min-height: 100vh;
+            padding: 20px;
         }
-        .container {
+        .app-container {
+            width: 100%;
+            max-width: 600px;
+        }
+        
+        /* --- استایل هدر و تب‌ها --- */
+        .header {
             background: rgba(255, 255, 255, 0.05);
             backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(10px);
-            padding: 40px 30px;
+            padding: 20px;
             border-radius: 20px;
-            box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
-            width: 90%;
-            max-width: 400px;
+            margin-bottom: 20px;
             border: 1px solid rgba(255, 255, 255, 0.1);
+            text-align: center;
         }
         h1 {
             background: linear-gradient(45deg, #ff00cc, #3333ff);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
-            text-align: center;
-            font-size: 2.2rem;
-            margin-bottom: 25px;
+            font-size: 2rem;
+            margin-bottom: 15px;
             font-weight: 800;
         }
+        .tabs {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+        .tab-btn {
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 8px 16px;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-weight: bold;
+        }
+        .tab-btn.active, .tab-btn:hover {
+            background: linear-gradient(45deg, #ff00cc, #3333ff);
+            border-color: transparent;
+            transform: scale(1.05);
+        }
+
+        /* --- بخش کارت‌ها --- */
+        .card {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            padding: 20px;
+            border-radius: 20px;
+            margin-bottom: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+        }
+        .card h2 {
+            font-size: 1.2rem;
+            margin-bottom: 15px;
+            color: #fff;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        /* --- استایل لیست کارها --- */
         .input-group {
             display: flex;
             flex-direction: column;
-            gap: 15px;
-            margin-bottom: 25px;
+            gap: 10px;
+            margin-bottom: 15px;
         }
-        input {
+        .row { display: flex; gap: 10px; }
+        input[type="text"], select, textarea {
             width: 100%;
-            padding: 15px;
+            padding: 12px;
             border: 1px solid rgba(255, 255, 255, 0.2);
             border-radius: 12px;
             background-color: rgba(0, 0, 0, 0.3);
             color: white;
             font-size: 1rem;
             outline: none;
-            transition: all 0.3s;
         }
-        input:focus {
+        input[type="text"]:focus, select:focus, textarea:focus {
             border-color: #ff00cc;
-            box-shadow: 0 0 10px rgba(255, 0, 204, 0.3);
         }
-        button {
-            width: 100%;
-            padding: 15px;
+        select option { background-color: #24243e; }
+        .add-btn {
+            padding: 12px 20px;
             background: linear-gradient(45deg, #ff00cc, #3333ff);
             color: white;
             font-weight: bold;
-            font-size: 1.1rem;
             border: none;
             border-radius: 12px;
             cursor: pointer;
-            transition: transform 0.2s, opacity 0.3s;
+            transition: transform 0.2s;
         }
-        button:hover {
-            transform: scale(1.02);
-            opacity: 0.9;
-        }
-        ul {
-            list-style: none;
-            max-height: 250px;
-            overflow-y: auto;
-        }
+        .add-btn:hover { transform: scale(1.05); }
+        
+        ul { list-style: none; }
         li {
             background-color: rgba(255, 255, 255, 0.08);
-            padding: 15px;
+            padding: 12px 15px;
             margin-bottom: 10px;
             border-radius: 12px;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            border-left: 4px solid #ff00cc;
+            border-left: 4px solid #fff;
             animation: fadeIn 0.3s ease;
         }
-        .delete-btn {
-            background: #ff3366;
+        li.completed { opacity: 0.5; }
+        li.completed .task-text { text-decoration: line-through; color: #888; }
+        .task-info { display: flex; flex-direction: column; flex: 1; margin-right: 10px; }
+        .task-text { font-size: 1.05rem; }
+        .category-badge { font-size: 0.75rem; color: #aaa; margin-top: 4px; }
+        .actions { display: flex; gap: 8px; }
+        .action-btn {
+            background: rgba(255, 255, 255, 0.1); color: white;
+            border: none; width: 32px; height: 32px;
+            border-radius: 8px; cursor: pointer;
+            display: flex; justify-content: center; align-items: center;
+        }
+        .check-btn:hover { background: #00ff88; color: black; }
+        .delete-btn:hover { background: #ff3366; }
+
+        /* --- استایل بخش یادداشت و عکس --- */
+        textarea {
+            resize: vertical;
+            min-height: 120px;
+            font-family: inherit;
+        }
+        .upload-btn {
+            background: #3333ff;
             color: white;
-            border: none;
-            padding: 8px 14px;
-            border-radius: 8px;
+            padding: 10px 20px;
+            border-radius: 12px;
             cursor: pointer;
-            font-size: 0.9rem;
-            width: auto;
-            transition: background 0.3s;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            font-weight: bold;
+            border: none;
+            margin-top: 10px;
         }
-        .delete-btn:hover {
-            background: #cc0033;
+        .upload-btn:hover { background: #1a1aff; }
+        input[type="file"] { display: none; }
+        .image-preview {
+            margin-top: 15px;
+            border-radius: 12px;
+            overflow: hidden;
+            display: none;
         }
+        .image-preview img {
+            width: 100%;
+            border-radius: 12px;
+            border: 2px solid rgba(255,255,255,0.1);
+        }
+
         @keyframes fadeIn {
             from { opacity: 0; transform: translateY(-10px); }
             to { opacity: 1; transform: translateY(0); }
@@ -115,31 +188,126 @@
 </head>
 <body>
 
-<div class="container">
-    <h1>My Tasks</h1>
-    
-    <div class="input-group">
-        <input type="text" id="taskInput" placeholder="What needs to be done?">
-        <button onclick="addTask()">Add Task</button>
+<div class="app-container">
+    <!-- هدر و تب‌ها -->
+    <div class="header">
+        <h1>My Planner</h1>
+        <div class="tabs">
+            <button class="tab-btn active" onclick="filterTasks('All', this)">All</button>
+            <button class="tab-btn" onclick="filterTasks('Research', this)">Research</button>
+            <button class="tab-btn" onclick="filterTasks('Project', this)">Project</button>
+            <button class="tab-btn" onclick="filterTasks('Computer', this)">Computer</button>
+        </div>
     </div>
-    
-    <ul id="taskList"></ul>
+
+    <!-- بخش لیست کارها -->
+    <div class="card">
+        <h2><i class="fa-solid fa-list-check"></i> Task List</h2>
+        <div class="input-group">
+            <div class="row">
+                <input type="text" id="taskInput" placeholder="Add a new task..." onkeypress="if(event.key==='Enter') addTask()">
+                <button class="add-btn" onclick="addTask()"><i class="fa-solid fa-plus"></i></button>
+            </div>
+            <select id="categorySelect">
+                <option value="Research">🔍 Research</option>
+                <option value="Project">📁 Project</option>
+                <option value="Computer">💻 Computer</option>
+            </select>
+        </div>
+        <ul id="taskList"></ul>
+    </div>
+
+    <!-- بخش یادداشت و تحقیق -->
+    <div class="card">
+        <h2><i class="fa-solid fa-book-open"></i> Research Notes</h2>
+        <textarea id="researchNotes" placeholder="Write your research notes here..."></textarea>
+        
+        <input type="file" id="imageUpload" accept="image/*" onchange="previewImage(event)">
+        <label for="imageUpload" class="upload-btn">
+            <i class="fa-solid fa-image"></i> Upload Image
+        </label>
+        
+        <div class="image-preview" id="imagePreviewContainer">
+            <img id="imagePreview" src="" alt="Uploaded Image">
+        </div>
+    </div>
 </div>
 
 <script>
+    let currentFilter = 'All';
+
+    // --- توابع لیست کارها ---
+    function filterTasks(category, btn) {
+        currentFilter = category;
+        // تغییر دکمه فعال
+        document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        
+        // فیلتر کردن
+        document.querySelectorAll('#taskList li').forEach(li => {
+            if (category === 'All' || li.getAttribute('data-cat') === category) {
+                li.style.display = 'flex';
+            } else {
+                li.style.display = 'none';
+            }
+        });
+    }
+
     function addTask() {
         const input = document.getElementById('taskInput');
+        const category = document.getElementById('categorySelect').value;
         const taskText = input.value.trim();
         if (taskText === '') return;
 
+        let icon = '';
+        let color = '';
+        if (category === 'Computer') { icon = 'fa-desktop'; color = '#00ff88'; }
+        else if (category === 'Research') { icon = 'fa-magnifying-glass'; color = '#00ccff'; }
+        else { icon = 'fa-folder'; color = '#ff00cc'; }
+
         const li = document.createElement('li');
+        li.setAttribute('data-cat', category);
+        li.style.borderLeftColor = color;
         li.innerHTML = `
-            <span>${taskText}</span>
-            <button class="delete-btn" onclick="this.parentElement.style.opacity='0'; setTimeout(()=>this.parentElement.remove(), 300)">Done</button>
+            <div class="task-info">
+                <span class="task-text">${taskText}</span>
+                <span class="category-badge"><i class="fa-solid ${icon}"></i> ${category}</span>
+            </div>
+            <div class="actions">
+                <button class="action-btn check-btn" onclick="toggleTask(this)"><i class="fa-solid fa-check"></i></button>
+                <button class="action-btn delete-btn" onclick="deleteTask(this)"><i class="fa-solid fa-trash"></i></button>
+            </div>
         `;
         
+        // اعمال فیلتر فعلی
+        if (currentFilter !== 'All' && currentFilter !== category) {
+            li.style.display = 'none';
+        }
+
         document.getElementById('taskList').appendChild(li);
         input.value = '';
+    }
+
+    function toggleTask(btn) {
+        btn.closest('li').classList.toggle('completed');
+    }
+
+    function deleteTask(btn) {
+        const li = btn.closest('li');
+        li.style.opacity = '0';
+        li.style.transform = 'translateX(20px)';
+        setTimeout(() => li.remove(), 300);
+    }
+
+    // --- تابع آپلود عکس ---
+    function previewImage(event) {
+        const reader = new FileReader();
+        reader.onload = function(){
+            const output = document.getElementById('imagePreview');
+            output.src = reader.result;
+            document.getElementById('imagePreviewContainer').style.display = 'block';
+        };
+        reader.readAsDataURL(event.target.files[0]);
     }
 </script>
 
