@@ -1,93 +1,141 @@
 <!DOCTYPE html>
-<html lang="fa" dir="rtl">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>برنامه‌ریز کارها</title>
+    <title>My Task Planner</title>
     <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
         body {
-            background-color: #1e1e1e;
-            color: white;
-            font-family: 'Vazirmatn', Tahoma, sans-serif;
+            background-color: #0f0c29;
+            background: linear-gradient(to right, #24243e, #302b63, #0f0c29);
+            color: #ffffff;
             display: flex;
             justify-content: center;
             align-items: center;
-            height: 100vh;
-            margin: 0;
+            min-height: 100vh;
         }
         .container {
-            background-color: #2d2d2d;
-            padding: 30px;
-            border-radius: 15px;
-            box-shadow: 0 0 20px rgba(0, 255, 136, 0.2);
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            padding: 40px 30px;
+            border-radius: 20px;
+            box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
             width: 90%;
             max-width: 400px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
         }
-        h1 { color: #00ff88; text-align: center; }
+        h1 {
+            background: linear-gradient(45deg, #ff00cc, #3333ff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-align: center;
+            font-size: 2.2rem;
+            margin-bottom: 25px;
+            font-weight: 800;
+        }
+        .input-group {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            margin-bottom: 25px;
+        }
         input {
             width: 100%;
-            padding: 12px;
-            margin: 10px 0;
-            border: none;
-            border-radius: 8px;
-            background-color: #444;
+            padding: 15px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 12px;
+            background-color: rgba(0, 0, 0, 0.3);
             color: white;
-            font-size: 16px;
-            box-sizing: border-box;
+            font-size: 1rem;
+            outline: none;
+            transition: all 0.3s;
+        }
+        input:focus {
+            border-color: #ff00cc;
+            box-shadow: 0 0 10px rgba(255, 0, 204, 0.3);
         }
         button {
             width: 100%;
-            padding: 12px;
-            background-color: #00ff88;
-            color: black;
+            padding: 15px;
+            background: linear-gradient(45deg, #ff00cc, #3333ff);
+            color: white;
             font-weight: bold;
+            font-size: 1.1rem;
             border: none;
-            border-radius: 8px;
+            border-radius: 12px;
             cursor: pointer;
-            font-size: 16px;
-            margin-bottom: 20px;
+            transition: transform 0.2s, opacity 0.3s;
         }
-        ul { list-style: none; padding: 0; }
+        button:hover {
+            transform: scale(1.02);
+            opacity: 0.9;
+        }
+        ul {
+            list-style: none;
+            max-height: 250px;
+            overflow-y: auto;
+        }
         li {
-            background-color: #444;
-            padding: 12px;
-            margin-bottom: 8px;
-            border-radius: 8px;
+            background-color: rgba(255, 255, 255, 0.08);
+            padding: 15px;
+            margin-bottom: 10px;
+            border-radius: 12px;
             display: flex;
             justify-content: space-between;
             align-items: center;
+            border-left: 4px solid #ff00cc;
+            animation: fadeIn 0.3s ease;
         }
         .delete-btn {
-            background-color: #ff4444;
+            background: #ff3366;
             color: white;
             border: none;
-            padding: 5px 10px;
-            border-radius: 5px;
+            padding: 8px 14px;
+            border-radius: 8px;
             cursor: pointer;
+            font-size: 0.9rem;
             width: auto;
-            margin-bottom: 0;
+            transition: background 0.3s;
+        }
+        .delete-btn:hover {
+            background: #cc0033;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
         }
     </style>
 </head>
 <body>
 
 <div class="container">
-    <h1>کارهای من</h1>
-    <input type="text" id="taskInput" placeholder="کار جدید رو بنویس...">
-    <button onclick="addTask()">اضافه کردن</button>
+    <h1>My Tasks</h1>
+    
+    <div class="input-group">
+        <input type="text" id="taskInput" placeholder="What needs to be done?">
+        <button onclick="addTask()">Add Task</button>
+    </div>
+    
     <ul id="taskList"></ul>
 </div>
 
 <script>
     function addTask() {
         const input = document.getElementById('taskInput');
-        const taskText = input.value;
+        const taskText = input.value.trim();
         if (taskText === '') return;
 
         const li = document.createElement('li');
         li.innerHTML = `
             <span>${taskText}</span>
-            <button class="delete-btn" onclick="this.parentElement.remove()">حذف</button>
+            <button class="delete-btn" onclick="this.parentElement.style.opacity='0'; setTimeout(()=>this.parentElement.remove(), 300)">Done</button>
         `;
         
         document.getElementById('taskList').appendChild(li);
