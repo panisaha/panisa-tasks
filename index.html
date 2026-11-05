@@ -1,179 +1,237 @@
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-}
-body {
-    background-color: #0d0d0d; /* مشکی تیره اصلی */
-    color: #ffffff;
-    display: flex;
-    justify-content: center;
-    align-items: flex-start;
-    min-height: 100vh;
-    padding: 20px;
-}
-.container {
-    background-color: #1a1a1a; /* خاکستری خیلی تیره برای کارت */
-    padding: 30px;
-    border-radius: 20px;
-    width: 100%;
-    max-width: 500px;
-    border: 1px solid #333;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.8);
-}
-h1 {
-    background: linear-gradient(45deg, #ff00cc, #3333ff);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    text-align: center;
-    font-size: 2rem;
-    margin-bottom: 5px;
-}
-.top-nav {
-    display: flex;
-    justify-content: flex-end;
-    margin-bottom: 15px;
-}
-.nav-link {
-    color: #00ccff;
-    text-decoration: none;
-    font-size: 0.9rem;
-    font-weight: bold;
-    transition: color 0.3s;
-}
-.nav-link:hover {
-    color: #ff00cc;
-}
-.input-group {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-    margin-bottom: 25px;
-}
-.row {
-    display: flex;
-    gap: 10px;
-}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Task Planner</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        body {
+            background-color: #0d0d0d;
+            color: #ffffff;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            min-height: 100vh;
+            padding: 20px;
+        }
+        .container {
+            background-color: #1a1a1a;
+            padding: 30px;
+            border-radius: 20px;
+            width: 100%;
+            max-width: 500px;
+            border: 1px solid #333;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.8);
+        }
+        h1 {
+            background: linear-gradient(45deg, #ff00cc, #3333ff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-align: center;
+            font-size: 2rem;
+            margin-bottom: 5px;
+        }
+        .top-nav {
+            display: flex;
+            justify-content: flex-end;
+            margin-bottom: 15px;
+        }
+        .nav-link {
+            color: #00ccff;
+            text-decoration: none;
+            font-size: 0.9rem;
+            font-weight: bold;
+            transition: color 0.3s;
+        }
+        .nav-link:hover {
+            color: #ff00cc;
+        }
+        .input-group {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin-bottom: 25px;
+        }
+        .row {
+            display: flex;
+            gap: 10px;
+        }
+        input, select {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #444;
+            border-radius: 12px;
+            background-color: #111;
+            color: white;
+            font-size: 1rem;
+            outline: none;
+            transition: border-color 0.3s, box-shadow 0.3s;
+        }
+        input:focus, select:focus {
+            border-color: #ff00cc;
+            box-shadow: 0 0 8px rgba(255, 0, 204, 0.3);
+        }
+        select {
+            appearance: none;
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            background-image: url("data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22292.4%22%20height%3D%22292.4%22%3E%3Cpath%20fill%3D%22%23FFFFFF%22%20d%3D%22M287%2069.4a17.6%2017.6%200%200%200-13-5.4H18.4c-5%200-9.3%201.8-12.9%205.4A17.6%2017.6%200%200%200%200%2082.2c0%205%201.8%209.3%205.4%2012.9l128%20127.9c3.6%203.6%207.8%205.4%2012.8%205.4s9.2-1.8%2012.8-5.4L287%2095c3.5-3.5%205.4-7.8%205.4-12.8%200-5-1.9-9.2-5.5-12.8z%22%2F%3E%3C%2Fsvg%3E");
+            background-repeat: no-repeat;
+            background-position: left 15px top 50%;
+            background-size: 12px auto;
+            cursor: pointer;
+        }
+        option {
+            background-color: #1a1a1a;
+            color: white;
+        }
+        .add-btn {
+            padding: 12px 20px;
+            background: linear-gradient(45deg, #ff00cc, #3333ff);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: transform 0.2s, opacity 0.2s;
+        }
+        .add-btn:hover {
+            transform: scale(1.05);
+            opacity: 0.9;
+        }
+        ul {
+            list-style: none;
+            max-height: 350px;
+            overflow-y: auto;
+            padding-right: 5px;
+        }
+        li {
+            background-color: #222;
+            padding: 15px;
+            margin-bottom: 10px;
+            border-radius: 12px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-left: 4px solid #fff;
+            animation: fadeIn 0.3s ease;
+            border-bottom: 1px solid #333;
+        }
+        li.completed {
+            opacity: 0.5;
+        }
+        li.completed .task-text {
+            text-decoration: line-through;
+            color: #888;
+        }
+        .task-info {
+            display: flex;
+            flex-direction: column;
+            flex: 1;
+            margin-right: 10px;
+        }
+        .task-text {
+            font-size: 1.05rem;
+            word-break: break-word;
+        }
+        .category-badge {
+            font-size: 0.75rem;
+            color: #aaa;
+            margin-top: 4px;
+        }
+        .actions {
+            display: flex;
+            gap: 8px;
+        }
+        .action-btn {
+            background: #333;
+            color: white;
+            border: none;
+            width: 32px;
+            height: 32px;
+            border-radius: 8px;
+            cursor: pointer;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transition: all 0.2s;
+        }
+        .action-btn:hover {
+            transform: scale(1.1);
+        }
+        .check-btn:hover {
+            background: #00ff88;
+            color: black;
+        }
+        .delete-btn:hover {
+            background: #ff3366;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>My Tasks</h1>
+        <div class="top-nav">
+            <a href="research.html" class="nav-link"><i class="fa-solid fa-book-open"></i> Go to Research Notes</a>
+        </div>
+        
+        <div class="input-group">
+            <div class="row">
+                <input type="text" id="taskInput" placeholder="Add a new task..." onkeypress="if(event.key==='Enter') addTask()">
+                <button class="add-btn" onclick="addTask()"><i class="fa-solid fa-plus"></i></button>
+            </div>
+            <select id="categorySelect">
+                <option value="Research">🔍 Research</option>
+                <option value="Project">📁 Project</option>
+                <option value="Computer">💻 Computer</option>
+            </select>
+        </div>
+        <ul id="taskList"></ul>
+    </div>
 
-/* استایل کادر تایپ و منو */
-input, select {
-    width: 100%;
-    padding: 12px;
-    border: 1px solid #444; /* حاشیه خاکستری */
-    border-radius: 12px;
-    background-color: #111;
-    color: white;
-    font-size: 1rem;
-    outline: none;
-    transition: border-color 0.3s, box-shadow 0.3s;
-}
-input:focus, select:focus {
-    border-color: #ff00cc; /* حاشیه صورتی موقع تایپ */
-    box-shadow: 0 0 8px rgba(255, 0, 204, 0.3);
-}
+    <script>
+        function addTask() {
+            const input = document.getElementById('taskInput');
+            const category = document.getElementById('categorySelect').value;
+            const taskText = input.value.trim();
+            if (taskText === '') return;
 
-/* شیک کردن منوی کشویی */
-select {
-    appearance: none;
-    -webkit-appearance: none;
-    -moz-appearance: none;
-    background-image: url("data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22292.4%22%20height%3D%22292.4%22%3E%3Cpath%20fill%3D%22%23FFFFFF%22%20d%3D%22M287%2069.4a17.6%2017.6%200%200%200-13-5.4H18.4c-5%200-9.3%201.8-12.9%205.4A17.6%2017.6%200%200%200%200%2082.2c0%205%201.8%209.3%205.4%2012.9l128%20127.9c3.6%203.6%207.8%205.4%2012.8%205.4s9.2-1.8%2012.8-5.4L287%2095c3.5-3.5%205.4-7.8%205.4-12.8%200-5-1.9-9.2-5.5-12.8z%22%2F%3E%3C%2Fsvg%3E");
-    background-repeat: no-repeat;
-    background-position: left 15px top 50%;
-    background-size: 12px auto;
-    cursor: pointer;
-}
-option {
-    background-color: #1a1a1a;
-    color: white;
-}
+            let icon = '', color = '';
+            if (category === 'Computer') { icon = 'fa-desktop'; color = '#00ff88'; }
+            else if (category === 'Research') { icon = 'fa-magnifying-glass'; color = '#00ccff'; }
+            else { icon = 'fa-folder'; color = '#ff00cc'; }
 
-.add-btn {
-    padding: 12px 20px;
-    background: linear-gradient(45deg, #ff00cc, #3333ff);
-    color: white;
-    border: none;
-    border-radius: 12px;
-    cursor: pointer;
-    transition: transform 0.2s, opacity 0.2s;
-}
-.add-btn:hover {
-    transform: scale(1.05);
-    opacity: 0.9;
-}
-
-/* لیست کارها */
-ul {
-    list-style: none;
-    max-height: 350px;
-    overflow-y: auto;
-    padding-right: 5px;
-}
-li {
-    background-color: #222; /* کارت‌های مشکی */
-    padding: 15px;
-    margin-bottom: 10px;
-    border-radius: 12px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    border-left: 4px solid #fff;
-    animation: fadeIn 0.3s ease;
-    border-bottom: 1px solid #333;
-}
-li.completed {
-    opacity: 0.5;
-}
-li.completed .task-text {
-    text-decoration: line-through;
-    color: #888;
-}
-.task-info {
-    display: flex;
-    flex-direction: column;
-    flex: 1;
-    margin-right: 10px;
-}
-.task-text {
-    font-size: 1.05rem;
-    word-break: break-word;
-}
-.category-badge {
-    font-size: 0.75rem;
-    color: #aaa;
-    margin-top: 4px;
-}
-
-.actions {
-    display: flex;
-    gap: 8px;
-}
-.action-btn {
-    background: #333;
-    color: white;
-    border: none;
-    width: 32px;
-    height: 32px;
-    border-radius: 8px;
-    cursor: pointer;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    transition: all 0.2s;
-}
-.action-btn:hover {
-    transform: scale(1.1);
-}
-.check-btn:hover {
-    background: #00ff88;
-    color: black;
-}
-.delete-btn:hover {
-    background: #ff3366;
-}
-
-@keyframes fadeIn {
-    from { opacity: 0; transform: translateY(-10px); }
-    to { opacity: 1; transform: translateY(0); }
-}
+            const li = document.createElement('li');
+            li.style.borderLeftColor = color;
+            li.innerHTML = `
+                <div class="task-info">
+                    <span class="task-text">${taskText}</span>
+                    <span class="category-badge"><i class="fa-solid ${icon}"></i> ${category}</span>
+                </div>
+                <div class="actions">
+                    <button class="action-btn check-btn" onclick="toggleTask(this)"><i class="fa-solid fa-check"></i></button>
+                    <button class="action-btn delete-btn" onclick="deleteTask(this)"><i class="fa-solid fa-trash"></i></button>
+                </div>
+            `;
+            document.getElementById('taskList').appendChild(li);
+            input.value = '';
+        }
+        function toggleTask(btn) { btn.closest('li').classList.toggle('completed'); }
+        function deleteTask(btn) {
+            const li = btn.closest('li');
+            li.style.opacity = '0'; li.style.transform = 'translateX(20px)';
+            setTimeout(() => li.remove(), 300);
+        }
+    </script>
+</body>
+</html>
